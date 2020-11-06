@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>856</width>
+    <width>949</width>
     <height>637</height>
    </rect>
   </property>
@@ -86,7 +86,27 @@
           </item>
           <item>
            <widget class="QWidget" name="widget_6" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <item>
+              <widget class="QScrollArea" name="scrollArea">
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>331</width>
+                  <height>370</height>
+                 </rect>
+                </property>
+               </widget>
+              </widget>
+             </item>
+            </layout>
             <zorder>widget_rules</zorder>
+            <zorder>scrollArea</zorder>
            </widget>
           </item>
          </layout>
@@ -123,7 +143,13 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="widget_8" native="true"/>
+           <widget class="QWidget" name="widget_8" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QListView" name="listView"/>
+             </item>
+            </layout>
+           </widget>
           </item>
          </layout>
          <zorder>widget_feature</zorder>
@@ -131,6 +157,97 @@
          <zorder>widget_feature</zorder>
          <zorder>widget_7</zorder>
          <zorder>widget_8</zorder>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_tools" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <widget class="QWidget" name="widget" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>13</pointsize>
+             </font>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>工具栏</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_4" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_recognition">
+               <property name="text">
+                <string>识别</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton">
+               <property name="text">
+                <string>添加规则</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -143,7 +260,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>856</width>
+     <width>949</width>
      <height>26</height>
     </rect>
    </property>
