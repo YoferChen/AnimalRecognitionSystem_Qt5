@@ -25,7 +25,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_title">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -97,16 +97,14 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>331</width>
-                  <height>370</height>
+                  <width>338</width>
+                  <height>366</height>
                  </rect>
                 </property>
                </widget>
               </widget>
              </item>
             </layout>
-            <zorder>widget_rules</zorder>
-            <zorder>scrollArea</zorder>
            </widget>
           </item>
          </layout>
@@ -146,17 +144,12 @@
            <widget class="QWidget" name="widget_8" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
-              <widget class="QListView" name="listView"/>
+              <widget class="QListWidget" name="listWidget_rules"/>
              </item>
             </layout>
            </widget>
           </item>
          </layout>
-         <zorder>widget_feature</zorder>
-         <zorder>widget_feature</zorder>
-         <zorder>widget_feature</zorder>
-         <zorder>widget_7</zorder>
-         <zorder>widget_8</zorder>
         </widget>
        </item>
        <item>
@@ -189,7 +182,7 @@
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="label_tools">
                <property name="text">
                 <string>工具栏</string>
                </property>
@@ -225,9 +218,16 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="btn_add_rule">
                <property name="text">
                 <string>添加规则</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_delete_rule">
+               <property name="text">
+                <string>删除规则</string>
                </property>
               </widget>
              </item>
@@ -261,7 +261,7 @@
      <x>0</x>
      <y>0</y>
      <width>949</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

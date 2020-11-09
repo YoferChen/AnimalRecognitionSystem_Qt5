@@ -25,10 +25,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    addrulesdialog.cpp \
+    rules.cpp \
+    facts.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    addrulesdialog.h \
+    rules.h \
+    rules.h \
+    facts.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    addrulesdialog.ui
+
+RESOURCES += \
+    resources.qrc
