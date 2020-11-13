@@ -23,7 +23,7 @@ public:
     void addFactToList(QString fact);
     void reflashRulesList();  //清空规则库，根据rules重新把规则库中的所有规则添加到控件
     void indentify();  //识别动物类别
-    void strToRule(QString str);  //将QString类型的规则解析为Rule类型，用于推理过程或初始化规则库
+    Rule* strToRule(QString str);  //将QString类型的规则解析为Rule类型，用于推理过程或初始化规则库
     void checkAndAddFactToList(Rule *rule);   //检查事实是否已存在事实库，否则添加
 
 private:

@@ -246,6 +246,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="pushButton_test">
+               <property name="text">
+                <string>字符串解析</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <spacer name="verticalSpacer_2">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>

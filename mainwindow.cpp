@@ -91,6 +91,9 @@ MainWindow::MainWindow(QWidget *parent) :
         facts.showFacts();
     });
 
+    connect(ui->pushButton_test,&QPushButton::clicked,[=](){
+        strToRule("123");
+    });
 
 }
 
@@ -135,9 +138,22 @@ void MainWindow::addFactToList(QString fact)   //添加事实选项到scrollArea
         pLayout->addWidget(pCheck,index/2,1);
 }
 
-void MainWindow::strToRule(QString str)  //将string类型规则解析成Rule类型，用于推理过程或初始化规则库
+Rule* MainWindow::strToRule(QString str)  //将string类型规则解析成Rule类型，用于推理过程或初始化规则库
 {
-
+//    QString test="有奶&胎生&有毛,哺乳动物";
+    QStringList strList=str.split(',');  //划分成事实和推论
+    QStringList factList=strList[0].split('&');
+    qDebug()<<"事实集："<<factList;  //事实集： ("有奶", "胎生", "有毛")
+    qDebug()<<"推论："<<strList[1];  //推论： "哺乳动物"
+    Rule *rule=new Rule();
+    qDebug()<<"事实数量："<<factList.size();
+    for(int i=0;i<factList.size();++i)
+    {
+        rule->premise[i]=factList[i];
+        rule->n_pre++;
+    }
+    rule->interence=strList[1];
+    return rule;
 }
 
 void MainWindow::checkAndAddFactToList(Rule *rule)  //检查事实是否已存在事实库，否则添加
@@ -154,21 +170,35 @@ void MainWindow::checkAndAddFactToList(Rule *rule)  //检查事实是否已存�
 
 void MainWindow::initRules()
 {
-    Rule* rule=new Rule();
-    rule->n_pre=1;
-    rule->premise[0]={"有奶"};
-    rule->interence={"哺乳动物"};
-    rules.addRule(rule);
-    addRuleToList(rule);
-//    for(int i=0;i<rule.n_pre;++i)  //检查规则的前提是否在事实库中，若不在，则加入事实库
-//    {
-//        bool flag=facts.checkAndAdd(rule.premise[i]);  //判断是否需要添加到事实库
-//        if(flag==true)
-//        {
-//            addFactToList(rule.premise[i],0);  //添加到事实库控件
-//        }
-//    }
-    checkAndAddFactToList(rule);
+//    QString initRules[15];
+//    initRules[0]="有奶,哺乳动物";  //注意逗号是英文逗号
+//    initRules[1]="有毛发,哺乳动物";
+
+    QStringList initRules;
+    initRules<<"有奶,哺乳动物"<<"有毛发,哺乳动物"<<"有羽毛,鸟"<<"会飞&生蛋,鸟"<<"哺乳动物&有爪&有犬齿&目盯前方,食肉动物"
+            <<"哺乳动物&吃肉,食肉动物"<<"哺乳动物&有蹄,有蹄动物"<<"有蹄动物&反刍食物,偶蹄动物"<<"食肉动物&黄褐色&有黑色条纹,老虎"
+           <<"食肉动物&黄褐色&有黑色斑点,金钱豹"<<"有蹄动物&长腿&长脖子&黄褐色&有暗斑点,长颈鹿"<<"有蹄动物&白色&有黑色条纹,斑马"
+          <<"鸟&不会飞&长腿&长脖子&黑白色,鸵鸟"<<"鸟&不会飞&会游泳&黑白色,企鹅"<<"鸟&善飞&不怕风浪,海燕";
+    for(int i=0;i<initRules.size();++i)
+    {
+        Rule* rule=strToRule(initRules[i]);
+        rules.addRule(rule);
+        addRuleToList(rule);
+        checkAndAddFactToList(rule);
+    }
+
+//    Rule* rule=new Rule();
+//    rule->n_pre=1;
+//    rule->premise[0]={"有奶"};
+//    rule->interence={"哺乳动物"};
+//    rules.addRule(rule);
+//    addRuleToList(rule);
+//    checkAndAddFactToList(rule);
+
+//    Rule* rule1=strToRule(initRules[1]);
+//    rules.addRule(rule1);
+//    addRuleToList(rule1);
+//    checkAndAddFactToList(rule1);
 
 }
 
