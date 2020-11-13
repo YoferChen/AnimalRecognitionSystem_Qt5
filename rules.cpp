@@ -1,6 +1,7 @@
 #include "rules.h"
 #include "facts.h"
 #include "mainwindow.h"
+#include <QDebug>
 
 Rules::Rules()
 {
@@ -32,4 +33,22 @@ void Rules::rmRule(int index)
     p->next=p->next->next;
     delete tmp;
     n_rules--;
+}
+
+void Rules::showRules()
+{
+    qDebug()<<"所有规则如下：";
+    int index=1;
+    Rule* p=front;
+    while(p->next!=NULL)
+    {
+        qDebug()<<"规则"<<index++<<":\n"<<"前提：";
+        for(int i=0;i<p->next->n_pre;++i)
+        {
+            qDebug()<<p->next->premise[i];
+        }
+        qDebug()<<"推论：\n"<<p->next->interence;
+
+        p=p->next;
+    }
 }

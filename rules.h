@@ -37,6 +37,7 @@ public:
     int getRulesNum();
     void addRule(Rule* rule);
     void rmRule(int index);  //移除指定序号的规则（序号从0开始）
+    void showRules();
 
 };
 

@@ -65,7 +65,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_reference"/>
+       <widget class="QLineEdit" name="lineEdit_interence"/>
       </item>
      </layout>
     </widget>
@@ -117,7 +117,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton">
+          <widget class="QToolButton" name="toolButton_deleteLine">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include "rules.h"
 
 namespace Ui {
 class AddRulesDialog;
@@ -16,11 +17,12 @@ public:
     explicit AddRulesDialog(QWidget *parent = 0);
     ~AddRulesDialog();
 
-private:
+public:
     Ui::AddRulesDialog *ui;
     int n_lineEdit=1;  //文本行数
     QLineEdit *editor[50];
-
+signals:
+    void sendAddedRule(Rule* rule);
 };
 
 #endif // ADDRULESDIALOG_H

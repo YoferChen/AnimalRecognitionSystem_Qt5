@@ -42,6 +42,17 @@ AddRulesDialog::AddRulesDialog(QWidget *parent) :
         qDebug()<<"文本栏数量："<<n_lineEdit<<endl;
     });
 
+    connect(ui->toolButton_deleteLine,&QToolButton::clicked,[=](){
+        //移除最后一个文本栏
+        if(n_lineEdit>1)
+        {
+//            pLayout->removeWidget(editor[n_lineEdit-1]);
+            delete editor[n_lineEdit-1];
+            qDebug()<<"文本栏数量："<<n_lineEdit<<endl;
+        }
+        n_lineEdit--;
+    });
+
     //点击确定按钮
     connect(ui->pushButton_accepted,&QPushButton::clicked,[=](){  //点击确定按钮检查输入内容，并保存信息到规则库，...
         qDebug()<<"点击确定按钮！\n";
@@ -68,7 +79,7 @@ AddRulesDialog::AddRulesDialog(QWidget *parent) :
                  //break;
             }
         }
-        if(ui->lineEdit_reference->text()==NULL)
+        if(ui->lineEdit_interence->text()==NULL)
         {
             close=false;
         }
@@ -78,6 +89,14 @@ AddRulesDialog::AddRulesDialog(QWidget *parent) :
         }
         if(close==true)
         {
+            Rule* rule=new Rule();
+            rule->n_pre=n_lineEdit;
+            for(int i=0;i<n_lineEdit;++i)
+            {
+                rule->premise[i]=editor[i]->text();
+            }
+            rule->interence=this->ui->lineEdit_interence->text();
+            emit sendAddedRule(rule);
 
             this->close();
         }
@@ -90,3 +109,8 @@ AddRulesDialog::~AddRulesDialog()
 {
     delete ui;
 }
+
+//Rule *AddRulesDialog::getAddedRule()
+//{
+//    qDebug()<<"获得添加的规则！"<<endl;
+//}

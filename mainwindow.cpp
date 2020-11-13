@@ -57,13 +57,40 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_add_rule,&QPushButton::clicked,[=](){
         //弹出窗口
         qDebug()<<"弹出添加规则窗口！\n";
-//        AddRulesDialog addRulesDialog;
-//        addRulesDialog.exec();
-        createAddRuleDialog();
+        AddRulesDialog* addRulesDialog=new AddRulesDialog();
+//        addRulesDialog->exec();
+
+
+        //如果有重载函数，需要使用函数指针指明使用哪个重载函数
+//        void (AddRulesDialog::*sendAddedRule)(Rule)=&AddRulesDialog::sendAddedRule;
+//        void (MainWindow::*getAddedRule)(Rule)=&MainWindow::getAddedRule;
+//        connect(addRulesDialog,sendAddedRule,this,getAddedRule);
+
+        connect(addRulesDialog,&AddRulesDialog::sendAddedRule,this,&MainWindow::getAddedRule);
+
+
+        addRulesDialog->exec();  //必须放在信号连接之后，否则接收不到信号！！！
+
+
+//        connect(addRulesDialog,&AddRulesDialog::sendSignal,[=](){
+//            qDebug()<<"Received signal！\n";
+//        });
     }
     );
 
+
+    //初始化手动设置的规则
     initRules();
+
+    //显示所有信息（测试）
+    connect(ui->pushButton_getRules,&QPushButton::clicked,[=](){
+        rules.showRules();
+    });
+
+    connect(ui->pushButton_getfacts,&QPushButton::clicked,[=](){
+        facts.showFacts();
+    });
+
 
 }
 
@@ -73,17 +100,17 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::createAddRuleDialog()
-{
-    addRulesDialog=new AddRulesDialog();
-    addRulesDialog->exec();
-}
+//void MainWindow::createAddRuleDialog()
+//{
+//    addRulesDialog=new AddRulesDialog();
+//    addRulesDialog->exec();
+//}
 
-void MainWindow::addRuleToList(Rule *rule,int index)  //添加规则到list控件中
+void MainWindow::addRuleToList(Rule *rule)  //添加规则到list控件中
 {
     int n_pre=rule->n_pre;
     QString text;  //显示问信息
-    text+=QString::number(index);
+    text+=QString::number(rules.getRulesNum());
     text+="  ";
     for(int i=0;i<n_pre;++i)
     {
@@ -96,29 +123,75 @@ void MainWindow::addRuleToList(Rule *rule,int index)  //添加规则到list控�
     ui->listWidget_rules->addItem(rule_item);
 }
 
-void MainWindow::addFactToList(QString fact,int index)   //添加事实选项到scrollArea控件中
+void MainWindow::addFactToList(QString fact)   //添加事实选项到scrollArea控件中
 {
     QCheckBox *pCheck=new QCheckBox();
     pCheck->setText(fact);
     pCheck->setMinimumSize(QSize(60,30));
-    pLayout->addWidget(pCheck,index/2,0);//把选项添加到布局控件中,第二个参数和第三个参数分别表示控件放置在第几行第几列
+    int index=facts.getFactsNum()-1;
+    if(index%2==0)
+        pLayout->addWidget(pCheck,index/2,0);//把选项添加到布局控件中,第二个参数和第三个参数分别表示控件放置在第几行第几列
+    else
+        pLayout->addWidget(pCheck,index/2,1);
+}
+
+void MainWindow::strToRule(QString str)  //将string类型规则解析成Rule类型，用于推理过程或初始化规则库
+{
+
+}
+
+void MainWindow::checkAndAddFactToList(Rule *rule)  //检查事实是否已存在事实库，否则添加
+{
+    for(int i=0;i<rule->n_pre;++i)  //检查规则的前提是否在事实库中，若不在，则加入事实库
+    {
+        bool flag=facts.checkAndAdd(rule->premise[i]);  //判断是否需要添加到事实库
+        if(flag==true)
+        {
+            addFactToList(rule->premise[i]);  //添加到事实库控件
+        }
+    }
 }
 
 void MainWindow::initRules()
 {
-    Rule rule;
-    rule.n_pre=1;
-    rule.premise[0]={"有奶"};
-    rule.interence={"哺乳动物"};
-    rules.addRule(&rule);
-    addRuleToList(&rule,1);
-    for(int i=0;i<rule.n_pre;++i)  //检查规则的前提是否在事实库中，若不在，则加入事实库
-    {
-        bool flag=facts.checkAndAdd(rule.premise[i]);  //判断是否需要添加到事实库
-        if(flag==true)
-        {
-            addFactToList(rule.premise[i],0);  //添加到事实库控件
-        }
-    }
+    Rule* rule=new Rule();
+    rule->n_pre=1;
+    rule->premise[0]={"有奶"};
+    rule->interence={"哺乳动物"};
+    rules.addRule(rule);
+    addRuleToList(rule);
+//    for(int i=0;i<rule.n_pre;++i)  //检查规则的前提是否在事实库中，若不在，则加入事实库
+//    {
+//        bool flag=facts.checkAndAdd(rule.premise[i]);  //判断是否需要添加到事实库
+//        if(flag==true)
+//        {
+//            addFactToList(rule.premise[i],0);  //添加到事实库控件
+//        }
+//    }
+    checkAndAddFactToList(rule);
 
 }
+
+void MainWindow::getAddedRule(Rule* rule)
+{
+    qDebug()<<"接收到信号！"<<endl;
+    qDebug()<<"新增规则：";
+    qDebug()<<"前提：";
+    for(int i=0;i<rule->n_pre;++i)
+    {
+        qDebug()<<rule->premise[i];
+    }
+    qDebug()<<"推论：\n"<<rule->interence;
+
+    //将规则添加到规则库、事实库和UI控件中
+    //添加到规则库
+    rules.addRule(rule);
+
+    //添加到规则UI控件
+    addRuleToList(rule);  //添加到UI需在添加到规则库后面，否则UI中的序号会出错
+
+    //添加到事实库和UI控件
+    checkAndAddFactToList(rule);
+
+}
+
