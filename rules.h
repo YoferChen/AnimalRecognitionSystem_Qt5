@@ -27,7 +27,8 @@ struct Rule{
 
 class Rules
 {
-private:
+//private:
+public:
     int n_rules=0;  //规则数量
     Rule* front;  //最大100条规则（带头结点）
     Rule * rear;

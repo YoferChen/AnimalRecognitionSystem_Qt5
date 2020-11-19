@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QCheckBox>
 #include <QPushButton>
+#include <QMessageBox>
 #include "addrulesdialog.h"
 #include <rules.h>
 
@@ -78,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     );
 
+    //初始化可识别的类别
+    classes<<"老虎"<<"金钱豹"<<"长颈鹿"<<"斑马"<<"企鹅"<<"鸵鸟"<<"海燕";
 
     //初始化手动设置的规则
     initRules();
@@ -86,15 +89,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_getRules,&QPushButton::clicked,[=](){
         rules.showRules();
     });
-
+    //显示所有事实
     connect(ui->pushButton_getfacts,&QPushButton::clicked,[=](){
         facts.showFacts();
     });
-
+    //测试字符串解析
     connect(ui->pushButton_test,&QPushButton::clicked,[=](){
-        strToRule("123");
+        strToRule("有奶,哺乳动物");
     });
-
+    //动物识别
     connect(ui->btn_recognition,&QPushButton::clicked,[=](){
          indentify();
     });
@@ -116,7 +119,7 @@ MainWindow::~MainWindow()
 void MainWindow::addRuleToList(Rule *rule)  //添加规则到list控件中
 {
     int n_pre=rule->n_pre;
-    QString text;  //显示问信息
+    QString text;  //显示规则信息
     text+=QString::number(rules.getRulesNum());
     text+="  ";
     for(int i=0;i<n_pre;++i)
@@ -151,10 +154,96 @@ void MainWindow::indentify()
     QStringList getChoiceFacts;  //获取选择的事实项
     for(int i=0;i<facts.getFactsNum();++i)
     {
-        qDebug()<<i<<"  "<<pCheck[i]->text()<<"  "<<pCheck[i]->checkState();
+        //qDebug()<<i<<"  "<<pCheck[i]->text()<<"  "<<pCheck[i]->checkState();
+        if(pCheck[i]->checkState()==Qt::Checked)
+        {
+            getChoiceFacts.append(pCheck[i]->text());
+        }
+    }
+    qDebug()<<"选择的事实："<<getChoiceFacts;
+    //记录每条规则是否被使用
+    int *state=new int(rules.getRulesNum());
+    for(int i=0;i<rules.getRulesNum();++i) state[i]=0;  //全部初始化为0
+    //是否匹配的规则
+    bool isRecognized=false;
+    QString recognizeResult=NULL;
+    bool isMatch=true;
+    //推理过程【以(xxx,xxx)==>XX的形式】
+    QStringList reasoning_process;
+    //保存现有规则的指针到数组，便于处理
+    Rule ** rulePtr=new Rule*[rules.getRulesNum()];
+    Rule* p=rules.front;
+    for(int i=0;i<rules.getRulesNum();++i)
+    {
+        rulePtr[i]=p->next;
+        p=p->next;
+    }
+    //遍历每条规则
+    while(isMatch&&isRecognized==false)  //有规则匹配且还未识别出动物类别
+    {
+        isMatch=false;  //没有匹配的规则
+        //遍历每条规则，判断是否规则的前提都满足，满足则状态标记为已使用，并将推理加入事实库
+        for(int i=0;i<rules.getRulesNum();++i)
+        {
+//            qDebug()<<state[i];
+            if(state[i]==0)  //该规则还未被使用
+            {
+                int preNum=rulePtr[i]->n_pre;  //获取前提数，每匹配一个前提，前提数-1，若最终前提数为0，则规则成立
+                for(int k=0;k<rulePtr[i]->n_pre;++k)  //遍历每个前提
+                {
+                    for(int t=0;t<getChoiceFacts.size();++t)  //遍历每个事实
+                    {
+                        if(getChoiceFacts[t]==rulePtr[i]->premise[k])
+                        {
+                            preNum--;
+                            break;
+                        }
+                    }
+                }
+                if(preNum==0)  //匹配成功，推论加入事实库
+                {
+                    getChoiceFacts.append(rulePtr[i]->interence);
+                    state[i]=1;  //规则标记为已使用
+                    isMatch=true;  //标记为存在规则匹配
+                    //判断推论是否是可识别的动物类别
+                    for(int j=0;j<classes.size();++j)
+                    {
+                        if(rulePtr[i]->interence==classes[j])
+                        {
+                            recognizeResult=rulePtr[i]->interence;  //识别出动物类别
+                            isRecognized=true;
+                        }
+                    }
+                    reasoning_process.append(ruleTostr(rulePtr[i],i+1));
+                    break;  //进行下一轮规则遍历
+                }
+            }
+
+        }
+
+    }
+    //识别结果弹出对话框显示
+    if(isRecognized)  //成功识别
+    {
+        qDebug()<<"识别成功"<<"识别结果："+QString(recognizeResult);
+        qDebug()<<"推理过程："<<reasoning_process;
+        QString meg;
+        for(int i=0;i<reasoning_process.size();++i)
+        {
+            if(i!=reasoning_process.size()-1)
+                meg+=reasoning_process[i]+'\n';
+            else
+                meg+=reasoning_process[i];
+        }
+        qDebug()<<"meg="<<meg;
+        QMessageBox::information(this,"识别成功","识别结果："+QString(recognizeResult)+'\n'+'\n'+"推理过程：\n"+meg);
+    }
+    else
+    {
+        qDebug()<<"识别失败"<<"抱歉，未能识别出动物类别！";
+        QMessageBox::warning(this,"识别失败","抱歉，未能识别出动物类别！");
     }
 
-    //识别结果弹出对话框显示
 
 }
 
@@ -174,6 +263,26 @@ Rule* MainWindow::strToRule(QString str)  //将string类型规则解析成Rule�
     }
     rule->interence=strList[1];
     return rule;
+}
+
+QString MainWindow::ruleTostr(Rule *rule,int index)
+{
+    QString str;
+    str+=(QString::number(index));
+    str+=" ";
+    for(int i=0;i<rule->n_pre;++i)
+    {
+        if(i!=rule->n_pre-1)
+        {
+            str+=rule->premise[i];
+            str+=",";
+        }
+        else
+            str+=rule->premise[i];
+    }
+    str+="->";
+    str+=rule->interence;
+    return str;
 }
 
 void MainWindow::checkAndAddFactToList(Rule *rule)  //检查事实是否已存在事实库，否则添加
