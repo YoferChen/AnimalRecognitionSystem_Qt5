@@ -95,6 +95,10 @@ MainWindow::MainWindow(QWidget *parent) :
         strToRule("123");
     });
 
+    connect(ui->btn_recognition,&QPushButton::clicked,[=](){
+         indentify();
+    });
+
 }
 
 MainWindow::~MainWindow()
@@ -128,14 +132,30 @@ void MainWindow::addRuleToList(Rule *rule)  //添加规则到list控件中
 
 void MainWindow::addFactToList(QString fact)   //添加事实选项到scrollArea控件中
 {
-    QCheckBox *pCheck=new QCheckBox();
-    pCheck->setText(fact);
-    pCheck->setMinimumSize(QSize(60,30));
     int index=facts.getFactsNum()-1;
+    pCheck[index]=new QCheckBox();
+    pCheck[index]->setText(fact);
+    pCheck[index]->setMinimumSize(QSize(60,30));
+//    int index=facts.getFactsNum()-1;
     if(index%2==0)
-        pLayout->addWidget(pCheck,index/2,0);//把选项添加到布局控件中,第二个参数和第三个参数分别表示控件放置在第几行第几列
+        pLayout->addWidget(pCheck[index],index/2,0);//把选项添加到布局控件中,第二个参数和第三个参数分别表示控件放置在第几行第几列
     else
-        pLayout->addWidget(pCheck,index/2,1);
+        pLayout->addWidget(pCheck[index],index/2,1);
+}
+
+// 动物识别【思路：对每一条规则的前提进行遍历，判断规则是否满足，若满足，将规则的推论加入事实库，此规则标记为已使用】
+void MainWindow::indentify()
+{
+    //系统状态初始化（避免上次识别过程产生的中间结果影响下一次识别
+    //获取选取的事实项、规则标记置零
+    QStringList getChoiceFacts;  //获取选择的事实项
+    for(int i=0;i<facts.getFactsNum();++i)
+    {
+        qDebug()<<i<<"  "<<pCheck[i]->text()<<"  "<<pCheck[i]->checkState();
+    }
+
+    //识别结果弹出对话框显示
+
 }
 
 Rule* MainWindow::strToRule(QString str)  //将string类型规则解析成Rule类型，用于推理过程或初始化规则库

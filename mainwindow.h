@@ -6,6 +6,7 @@
 #include <facts.h>
 #include <addrulesdialog.h>
 #include <QGridLayout>
+#include <QCheckBox>
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +34,7 @@ private:
     Facts facts;  //事实库
 //    AddRulesDialog* addRulesDialog;  //添加规则窗口指针
     QGridLayout *pLayout;
+    QCheckBox *pCheck[100];  //100个事实选项
     void initRules();  //初始化规则库和事实库（事实库根据规则库初始化）
 public slots:
     void getAddedRule(Rule* rule);
