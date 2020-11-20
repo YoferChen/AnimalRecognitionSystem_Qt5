@@ -7,15 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>370</height>
+    <height>404</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>添加规则</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="resources.qrc">
-    <normaloff>:/1/30.ico</normaloff>:/1/30.ico</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
@@ -48,7 +44,7 @@
            <x>0</x>
            <y>0</y>
            <width>277</width>
-           <height>232</height>
+           <height>266</height>
           </rect>
          </property>
         </widget>

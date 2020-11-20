@@ -41,6 +41,7 @@ private:
     QGridLayout *pLayout;
     QCheckBox *pCheck[100];  //100个事实选项
     void initRules();  //初始化规则库和事实库（事实库根据规则库初始化）
+    void rules_expansion();  //规则库扩充，实验选做
 public slots:
     void getAddedRule(Rule* rule);
 };

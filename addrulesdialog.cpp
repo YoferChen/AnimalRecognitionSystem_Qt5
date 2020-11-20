@@ -85,7 +85,7 @@ AddRulesDialog::AddRulesDialog(QWidget *parent) :
         }
         if (close==false)
         {
-            QMessageBox::warning(this,"文本栏不能为空！","警告！");
+            QMessageBox::warning(this,"警告！","文本栏不能为空！");
         }
         if(close==true)
         {

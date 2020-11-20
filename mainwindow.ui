@@ -109,7 +109,7 @@
                   <x>0</x>
                   <y>0</y>
                   <width>321</width>
-                  <height>366</height>
+                  <height>363</height>
                  </rect>
                 </property>
                </widget>
@@ -229,6 +229,19 @@
               </spacer>
              </item>
              <item>
+              <widget class="QPushButton" name="pushButton_checkReset">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>选项复位</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="btn_recognition">
                <property name="font">
                 <font>
@@ -290,6 +303,32 @@
                </property>
                <property name="text">
                 <string>查询所有规则</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_getClasses">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>查询动物类别</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_rulesExpansion">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>规则库扩充</string>
                </property>
               </widget>
              </item>

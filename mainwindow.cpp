@@ -13,46 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    QCheckBox *check1=new QCheckBox(ui->scrollArea);
-//    check1->setText("test");
-//    QCheckBox *check2=new QCheckBox(ui->scrollArea);
-//    check1->setText("test");
-//    QCheckBox *check3=new QCheckBox(ui->scrollArea);
-//    check1->setText("test");
-//    QCheckBox *check4=new QCheckBox(ui->scrollArea);
-//    check1->setText("test");
-//    QCheckBox *check5=new QCheckBox(ui->scrollArea);
-//    check1->setText("test");
-//    QCheckBox *check6=new QCheckBox(ui->scrollArea);
-//    check1->setText("test");
-//    ui->scrollArea->setAlignment(Qt::AlignVCenter);
 
     pLayout = new QGridLayout();//网格布局
     ui->scrollArea->widget()->setLayout(pLayout);//把布局放置到QScrollArea的内部QWidget中
     pLayout->setAlignment(Qt::AlignTop);
-
-//    for(int i = 0; i < 5; i++)
-//    {
-////        QPushButton *pBtn = new QPushButton();
-////        pBtn->setText(QString("按钮%1").arg(i));
-////        pBtn->setMinimumSize(QSize(60,30));   //width height
-////        pLayout->addWidget(pBtn);//把按钮添加到布局控件中
-//        if(i%2==0)
-//        {
-//            QCheckBox *pCheck=new QCheckBox();
-//            pCheck->setText(QString("选项%1").arg(i));
-//            pCheck->setMinimumSize(QSize(60,30));
-//            pLayout->addWidget(pCheck,i/2,0);//把选项添加到布局控件中,第二个参数和第三个参数分别表示控件放置在第几行第几列
-//        }
-//        else
-//        {
-//            QCheckBox *pCheck=new QCheckBox();
-//            pCheck->setText(QString("选项%1").arg(i));
-//            pCheck->setMinimumSize(QSize(60,30));
-//            pLayout->addWidget(pCheck,i/2,1);//把选项添加到布局控件中
-//        }
-
-//    }
 
     //点击添加规则按钮弹出窗口
     connect(ui->btn_add_rule,&QPushButton::clicked,[=](){
@@ -73,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
         addRulesDialog->exec();  //必须放在信号连接之后，否则接收不到信号！！！
 
 
-//        connect(addRulesDialog,&AddRulesDialog::sendSignal,[=](){
+//        connect(addRulesDialog,&AddRulesDialog::sendSignal,[=](){  //放在exec之后，接收不到信号
 //            qDebug()<<"Received signal！\n";
 //        });
     }
@@ -108,6 +72,35 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_delete_rule,&QPushButton::clicked,[=](){
         deleteRuleFromList();
     });
+
+    //规则库扩充
+    connect(ui->pushButton_rulesExpansion,&QPushButton::clicked,[=](){
+        rules_expansion();
+        QMessageBox::about(this,"规则库扩充","规则库扩充成功！");
+        ui->pushButton_rulesExpansion->setDisabled(true);
+    });
+
+    //选项复位
+    connect(ui->pushButton_checkReset,&QPushButton::clicked,[=](){
+        for(int i=0;i<rules.getRulesNum();++i)
+        {
+            if(pCheck[i]->checkState()==Qt::Checked)
+            {
+                pCheck[i]->setChecked(false);
+            }
+        }
+    });
+
+    //查询动物类别库
+    connect(ui->pushButton_getClasses,&QPushButton::clicked,[=](){
+        QString meg;
+        meg+="系统可识别的动物类别如下：\n";
+        for(int i=0;i<classes.size();++i)
+        {
+            meg+="  "+QString::number(i+1)+"  "+classes[i]+"\n";
+        }
+        QMessageBox::about(this,"动物类别库",meg);
+    });
 }
 
 MainWindow::~MainWindow()
@@ -115,12 +108,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-//void MainWindow::createAddRuleDialog()
-//{
-//    addRulesDialog=new AddRulesDialog();
-//    addRulesDialog->exec();
-//}
 
 void MainWindow::addRuleToList(Rule *rule)  //添加规则到list控件中
 {
@@ -375,19 +362,29 @@ void MainWindow::initRules()
         checkAndAddFactToList(rule);
     }
 
-//    Rule* rule=new Rule();
-//    rule->n_pre=1;
-//    rule->premise[0]={"有奶"};
-//    rule->interence={"哺乳动物"};
-//    rules.addRule(rule);
-//    addRuleToList(rule);
-//    checkAndAddFactToList(rule);
+}
 
-//    Rule* rule1=strToRule(initRules[1]);
-//    rules.addRule(rule1);
-//    addRuleToList(rule1);
-//    checkAndAddFactToList(rule1);
-
+void MainWindow::rules_expansion()
+{
+    QStringList expRules;
+    expRules<<"有毛发&有奶&善跳跃&唇裂,兔子"<<"有毛发&有奶&善捕鼠&脚有肉垫,猫"<<"有毛发&有奶&鼻子上有角&褐色&皮糙肉厚&有蹄,犀牛"
+            <<"有毛发&有奶&黑眼圈&四肢短小,熊猫"<<"鸟类&上嘴鹰钩&会模仿人说话,鹦鹉"<<"鸟类&腿短&嘴扁平&善潜水游泳,鸭子"
+           <<"鸟类&上嘴鹰钩&有爪&吃肉,鹰"<<"有羽毛&卵生&善游泳&嘴扁平&腿短,鸭子"<<"有羽毛&卵生&善潜水游泳&白色或黑色&颈长&嘴大&腿长&颈部有肉只凸起,鹅"
+          <<"有羽毛&卵生&黑色&嘴大,鸦"<<"有羽毛&卵生&有爪&吃肉&上嘴鹰钩,鹰"<<"有羽毛&卵生&上嘴鹰钩&能模仿人说话,鹦鹉"
+         <<"卵生&生活在水中&生活在陆地&有皮肤呼吸&用肺呼吸&皮肤光滑&吃昆虫&会变色,青蛙"<<"卵生&生活在水中&生活在陆地&有皮肤呼吸&用肺呼吸&吃昆虫&皮肤粗糙&四肢扁&背部黑色,蝾螈"
+        <<"卵生&生活在水中&生活在陆地&有皮肤呼吸&用肺呼吸&吃昆虫&皮肤粗糙,蟾蜍"<<"用鳃呼吸&身体有鳍&生活在海洋中&身体扁平&两眼在头部同侧,比目鱼"
+       <<"用鳃呼吸&身体有鳍&生活在淡水中&身体扁平&头高尾部窄,鲫鱼"<<"生活在陆地&用肺呼吸&胎生&身体有鳞或甲&身体圆而细长&吃小动物,蛇"
+      <<"生活在陆地&用肺呼吸&胎生&身体有鳞或甲&有四肢&尾巴细长易断&吃昆虫,壁虎"<<"生活在陆地&用肺呼吸&胎生&身体有鳞或甲&身体圆而扁&有坚硬的壳,乌龟"
+     <<"生活在陆地&用肺呼吸&胎生&身体有鳞或甲&壳为黄褐色&皮肤光滑&有黑斑,玳瑁"<<"生活在陆地&用肺呼吸&胎生&身体有鳞或甲&有四肢&善游泳&皮硬黑褐色,鳄鱼";
+    for(int i=0;i<expRules.size();++i)
+    {
+        Rule* rule=strToRule(expRules[i]);
+        rules.addRule(rule);
+        addRuleToList(rule);
+        checkAndAddFactToList(rule);
+        classes<<rule->interence;  //将推论，即动物类别加入类别数据库
+    }
+    classes=classes.toSet().toList();  //自动去重
 }
 
 void MainWindow::getAddedRule(Rule* rule)
@@ -416,6 +413,7 @@ void MainWindow::getAddedRule(Rule* rule)
     {
         classes.append(rule->interence);
     }
+    classes=classes.toSet().toList();  //自动去重
 
 }
 
