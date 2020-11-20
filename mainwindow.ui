@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/Animal/h9.ico</normaloff>:/Animal/h9.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -64,6 +68,13 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <family>汉仪小麦体简</family>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
@@ -126,6 +137,7 @@
               <widget class="QLabel" name="label_rules">
                <property name="font">
                 <font>
+                 <family>汉仪小麦体简</family>
                  <pointsize>13</pointsize>
                 </font>
                </property>
@@ -183,6 +195,12 @@
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
               <widget class="QLabel" name="label_tools">
+               <property name="font">
+                <font>
+                 <family>汉仪小麦体简</family>
+                 <pointsize>13</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>工具栏</string>
                </property>
@@ -212,6 +230,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="btn_recognition">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>识别</string>
                </property>
@@ -219,6 +243,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="btn_add_rule">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>添加规则</string>
                </property>
@@ -226,6 +256,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="btn_delete_rule">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>11</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>删除规则</string>
                </property>
@@ -233,6 +269,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="pushButton_getfacts">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>查询所有事实</string>
                </property>
@@ -240,6 +282,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="pushButton_getRules">
+               <property name="font">
+                <font>
+                 <family>中国式手写风</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>查询所有规则</string>
                </property>
@@ -262,11 +310,14 @@
               <widget class="QLabel" name="label">
                <property name="font">
                 <font>
-                 <family>田氏颜体大字库</family>
+                 <family>造字工房悦黑体验版常规体</family>
                 </font>
                </property>
                <property name="text">
                 <string>作者：陈湧锋</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>
@@ -282,6 +333,9 @@
             </property>
             <property name="text">
              <string>学号：1806100125</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -314,6 +368,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

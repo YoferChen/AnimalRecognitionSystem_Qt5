@@ -1,3 +1,47 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>2/Button Add.ico</file>
+        <file>2/Button Cancel.ico</file>
+        <file>2/Button Close.ico</file>
+        <file>2/Button Delete.ico</file>
+        <file>2/Button Fast Forward.ico</file>
+        <file>2/Button First.ico</file>
+        <file>2/Button Help.ico</file>
+        <file>2/Button Info.ico</file>
+        <file>2/Button Last.ico</file>
+        <file>2/Button Next.ico</file>
+        <file>2/Button Pause.ico</file>
+        <file>2/Button Play.ico</file>
+        <file>2/Button Previous.ico</file>
+        <file>2/Button Refresh.ico</file>
+        <file>2/Button Reload.ico</file>
+        <file>2/Button Rewind.ico</file>
+        <file>2/Button Stop.ico</file>
+        <file>1/30.ico</file>
+        <file>1/31.ico</file>
+        <file>1/32.ico</file>
+        <file>1/33.ico</file>
+        <file>1/34.ico</file>
+        <file>1/35.ico</file>
+        <file>1/36.ico</file>
+        <file>1/37.ico</file>
+        <file>1/38.ico</file>
+        <file>1/39.ico</file>
+        <file>1/310.ico</file>
+        <file>1/311.ico</file>
+        <file>1/312.ico</file>
+        <file>1/313.ico</file>
+        <file>Animal/h1.ico</file>
+        <file>Animal/h2.ico</file>
+        <file>Animal/h3.ico</file>
+        <file>Animal/h4.ico</file>
+        <file>Animal/h5.ico</file>
+        <file>Animal/h6.ico</file>
+        <file>Animal/h7.ico</file>
+        <file>Animal/h8.ico</file>
+        <file>Animal/h9.ico</file>
+        <file>Animal/h10.ico</file>
+        <file>Animal/h11.ico</file>
+        <file>Animal/h12.ico</file>
+    </qresource>
 </RCC>

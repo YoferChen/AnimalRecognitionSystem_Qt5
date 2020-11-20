@@ -43,3 +43,5 @@ FORMS += \
 
 RESOURCES += \
     resources.qrc
+
+RC_FILE = myApp.rc
