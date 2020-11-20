@@ -22,6 +22,7 @@ struct Rule{
 //    /*char*/ inference[255];  //推论
     QString interence;  //推论
     Rule *next;
+    bool isTarget;  //推论是否为要识别的具体动物
 
 };
 
@@ -38,7 +39,7 @@ public:
     int getRulesNum();
     void addRule(Rule* rule);
     void rmRule(int index);  //移除指定序号的规则（序号从0开始）
-    void showRules();
+    QString showRules();
 
 };
 

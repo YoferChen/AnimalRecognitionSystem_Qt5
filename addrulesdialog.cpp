@@ -96,6 +96,10 @@ AddRulesDialog::AddRulesDialog(QWidget *parent) :
                 rule->premise[i]=editor[i]->text();
             }
             rule->interence=this->ui->lineEdit_interence->text();
+            bool isAnimal=false;
+            if(ui->checkBox_isAnimal->checkState()==Qt::Checked)
+                isAnimal=true;
+            rule->isTarget=isAnimal;
             emit sendAddedRule(rule);
 
             this->close();

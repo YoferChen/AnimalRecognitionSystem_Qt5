@@ -87,21 +87,27 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //显示所有信息（测试）
     connect(ui->pushButton_getRules,&QPushButton::clicked,[=](){
-        rules.showRules();
+        QString meg=rules.showRules();
+        QMessageBox::about(this,"显示所有规则",meg);
     });
     //显示所有事实
     connect(ui->pushButton_getfacts,&QPushButton::clicked,[=](){
-        facts.showFacts();
+        QString meg=facts.showFacts();
+        QMessageBox::about(this,"显示所有事实",meg);
     });
-    //测试字符串解析
-    connect(ui->pushButton_test,&QPushButton::clicked,[=](){
-        strToRule("有奶,哺乳动物");
-    });
+    //测试字符串解析(测试)
+//    connect(ui->pushButton_test,&QPushButton::clicked,[=](){
+//        strToRule("有奶,哺乳动物");
+//    });
     //动物识别
     connect(ui->btn_recognition,&QPushButton::clicked,[=](){
          indentify();
     });
 
+    //删除规则
+    connect(ui->btn_delete_rule,&QPushButton::clicked,[=](){
+        deleteRuleFromList();
+    });
 }
 
 MainWindow::~MainWindow()
@@ -121,6 +127,23 @@ void MainWindow::addRuleToList(Rule *rule)  //添加规则到list控件中
     int n_pre=rule->n_pre;
     QString text;  //显示规则信息
     text+=QString::number(rules.getRulesNum());
+    text+="  ";
+    for(int i=0;i<n_pre;++i)
+    {
+        if(i!=n_pre-1) text+=rule->premise[i]+"&";
+        else text+=rule->premise[i];
+    }
+    text+=new QString("->");
+    text+=rule->interence;
+    QListWidgetItem *rule_item=new QListWidgetItem(text);
+    ui->listWidget_rules->addItem(rule_item);
+}
+
+void MainWindow::addRuleToListByIndex(Rule *rule, int index)
+{
+    int n_pre=rule->n_pre;
+    QString text;  //显示规则信息
+    text+=QString::number(index);
     text+="  ";
     for(int i=0;i<n_pre;++i)
     {
@@ -161,6 +184,11 @@ void MainWindow::indentify()
         }
     }
     qDebug()<<"选择的事实："<<getChoiceFacts;
+    if(getChoiceFacts.size()==0)
+    {
+        QMessageBox::warning(this,"警告","请选择事实！");
+        return;
+    }
     //记录每条规则是否被使用
     int *state=new int(rules.getRulesNum());
     for(int i=0;i<rules.getRulesNum();++i) state[i]=0;  //全部初始化为0
@@ -297,6 +325,37 @@ void MainWindow::checkAndAddFactToList(Rule *rule)  //检查事实是否已存�
     }
 }
 
+void MainWindow::deleteRuleFromList()
+{
+
+    QListWidgetItem* item=ui->listWidget_rules->currentItem();
+    if(item==NULL)
+    {
+        QMessageBox::warning(this,"警告","请选择要删除的规则！");
+        return;
+    }
+    int selectedIndex=ui->listWidget_rules->currentRow();
+//    qDebug()<<"删除规则："<<item->text();
+    qDebug()<<"删除第"<<selectedIndex+1<<"条规则："<<item->text();
+    rules.rmRule(selectedIndex);  //从规则库中删除
+    delete item;
+    //更新规则list，修改序号
+    refleshRulesList();
+//    QMessageBox::warning(this,"警告","请选择要删除的规则！");
+
+}
+
+void MainWindow::refleshRulesList()
+{
+    ui->listWidget_rules->clear();
+    Rule* p=rules.front;
+    for(int i=0;i<rules.getRulesNum();++i)
+    {
+        addRuleToListByIndex(p->next,i+1);
+        p=p->next;
+    }
+}
+
 void MainWindow::initRules()
 {
 //    QString initRules[15];
@@ -341,6 +400,7 @@ void MainWindow::getAddedRule(Rule* rule)
         qDebug()<<rule->premise[i];
     }
     qDebug()<<"推论：\n"<<rule->interence;
+    qDebug()<<"是否为具体动物："<<rule->isTarget;
 
     //将规则添加到规则库、事实库和UI控件中
     //添加到规则库
@@ -351,6 +411,11 @@ void MainWindow::getAddedRule(Rule* rule)
 
     //添加到事实库和UI控件
     checkAndAddFactToList(rule);
+
+    if(rule->isTarget==true)  //将推论加入到识别库中
+    {
+        classes.append(rule->interence);
+    }
 
 }
 

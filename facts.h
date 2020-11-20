@@ -13,7 +13,7 @@ public:
 //    bool checkAndAdd(char *fact);  //检查事实库是否存在事实，若不存在，则将事实加入事实库
     bool checkAndAdd(QString fact);  //检查事实库是否存在事实，若不存在，则将事实加入事实库
 
-    void showFacts();
+    QString showFacts();
 private:
     int n_facts=0;
 //    char facts[100][128];  //事实库

@@ -97,7 +97,7 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>328</width>
+                  <width>321</width>
                   <height>366</height>
                  </rect>
                 </property>
@@ -246,13 +246,6 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_test">
-               <property name="text">
-                <string>字符串解析</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <spacer name="verticalSpacer_2">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -265,7 +258,31 @@
                </property>
               </spacer>
              </item>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="font">
+                <font>
+                 <family>田氏颜体大字库</family>
+                </font>
+               </property>
+               <property name="text">
+                <string>作者：陈湧锋</string>
+               </property>
+              </widget>
+             </item>
             </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <family>造字工房悦黑体验版常规体</family>
+             </font>
+            </property>
+            <property name="text">
+             <string>学号：1806100125</string>
+            </property>
            </widget>
           </item>
          </layout>

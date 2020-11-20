@@ -2,6 +2,7 @@
 #include "facts.h"
 #include "mainwindow.h"
 #include <QDebug>
+#include <QMessageBox>
 
 Rules::Rules()
 {
@@ -35,20 +36,29 @@ void Rules::rmRule(int index)
     n_rules--;
 }
 
-void Rules::showRules()
+QString Rules::showRules()
 {
+    QString meg;
     qDebug()<<"所有规则如下：";
+    meg+="所有规则如下：";
+    meg+='\n';
     int index=1;
     Rule* p=front;
     while(p->next!=NULL)
     {
+        meg+="规则"+QString::number(index)+":\n"+"\t";
         qDebug()<<"规则"<<index++<<":\n"<<"前提：";
         for(int i=0;i<p->next->n_pre;++i)
         {
             qDebug()<<p->next->premise[i];
+            meg+=p->next->premise[i];
+            if(i!=p->next->n_pre-1) meg+=",";
         }
         qDebug()<<"推论：\n"<<p->next->interence;
+        meg+="==>"+p->next->interence;
+        meg+='\n';
 
         p=p->next;
     }
+    return meg;
 }

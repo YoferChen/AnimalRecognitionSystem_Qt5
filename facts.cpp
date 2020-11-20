@@ -55,11 +55,15 @@ bool Facts::checkAndAdd(QString fact)  //检查事实库并添加不存在的事
     return flag;  //返回是否添加到事实库
 }
 
-void Facts::showFacts()
+QString Facts::showFacts()
 {
+    QString meg;
     int index=1;
+    meg+="所有事实如下：\n";
     for(int i=0;i<n_facts;++i)
     {
+        meg+=QString::number(index)+":"+facts[i]+'\n';
         qDebug()<<"事实"<<index++<<":"<<facts[i];
     }
+    return meg;
 }
